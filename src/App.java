@@ -8,6 +8,8 @@ public class App {
         ArrayList<Alunos> alunos = new ArrayList<Alunos>();
         Scanner scan = new Scanner(System.in);
 
+        cursos.add(new Curso("informatica", "manha", disp))
+
         System.out.println("Sistema Academico - IFCE - Campus Itapipoca");
         boolean continuar = true;
 
