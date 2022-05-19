@@ -1,7 +1,9 @@
 import java.util.ArrayList;
+
 public class Curso {
+    static private int qts_cursos = 0;
     private int id;
-    private String nome;    
+    private String nome;
     private String turno;
     ArrayList<Disciplinas> disp = new ArrayList<Disciplinas>();
 
@@ -9,6 +11,8 @@ public class Curso {
         this.nome = nome;
         this.turno = turno;
         this.disp.add(disp);
+        qts_cursos++;
+        id = qts_cursos;
     }
 
     public String getNome() {
@@ -19,12 +23,11 @@ public class Curso {
         this.disp.add(disp);
     }
 
-    @Override
     public String toString() {
-        String nome_disp = null;
+        String nome_disp = "";
         for (Disciplinas i : disp) {
-            nome_disp += i.getNome() + " ";
+            nome_disp += i.getNome() + " | ";
         }
-        return nome+" "+turno+" " + nome_disp;
+        return "Id: "+ id + "\nCurso: " + nome + "\nTurno: " + turno + "\nDisciplinas: " + nome_disp+ "\n";
     }
 }

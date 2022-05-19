@@ -1,4 +1,6 @@
 public class Disciplinas {
+    static private int qts_disc = 0;
+    private int id;
     private String nome;
     private int carg_hr;
     private float nota;
@@ -7,6 +9,8 @@ public class Disciplinas {
         this.nome = nome;
         this.carg_hr = carg_hr;
         this.nota = nota;
+        qts_disc++;
+        id = qts_disc;
     }
 
     public String getNome() {
@@ -15,6 +19,6 @@ public class Disciplinas {
 
     public String toString() {
         
-        return nome + " " + carg_hr + " " + nota;
+        return "Id: "+id+"\nDisciplina: "+ nome + "\nCarga Horaria: " + carg_hr + "\nNota: " + nota + "\n";
     }
 }

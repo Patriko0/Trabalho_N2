@@ -11,6 +11,6 @@ public class Alunos {
         this.c1 = c1;
     }   
     public String toString() {
-        return nome + " " + matricula + " " + idade + " " + c1.getNome();
+        return "Nome: "+ nome + "\nNumero de matricula: " + matricula + "\nIdade: " + idade + "\nCurso: " + c1.getNome() + "\n";
     }
 }
