@@ -5,7 +5,7 @@ public class Curso {
     private int id;
     private String nome;
     private String turno;
-    ArrayList<Disciplinas> disp = new ArrayList<Disciplinas>();
+    private ArrayList<Disciplinas> disp = new ArrayList<Disciplinas>();
 
     public Curso(String nome, String turno, Disciplinas disp) {
         this.nome = nome;

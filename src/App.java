@@ -6,6 +6,9 @@ public class App {
         ArrayList<Disciplinas> disciplinas = new ArrayList<Disciplinas>();
         ArrayList<Curso> cursos = new ArrayList<Curso>();
         ArrayList<Alunos> alunos = new ArrayList<Alunos>();
+        disciplinas.add(new Disciplinas("Default discip", 80));
+        cursos.add(new Curso("Default curso", "Manha", disciplinas.get(0)));
+        alunos.add(new Alunos("Defalt aluno", 15, cursos.get(0)));
         Scanner scan = new Scanner(System.in);
 
         System.out.println("Sistema Academico - IFCE - Campus Itapipoca");
@@ -17,13 +20,174 @@ public class App {
             int opc = scan.nextInt();
             switch (opc) {
                 case 1:
-                    System.out.println("Gerenciar Alunos\n");
+                    while (continuar) {
+                        String New_nome;
+                        String verif_mat;
+                        Integer New_idade;
+                        boolean exist = false;
+                        System.out.println("Gerenciar Alunos\n");
+                        System.out.println(
+                                "Opções:\n   1-Cadastrar Aluno\n   2-Consultar Aluno\n   3-Remover Aluno\n   4-Atualizar Aluno\n   5-Mostrar notas\n   6-Atualizar notas\n   7-Mudar o curso do aluno\n   8-Voltar ao menu inicial");
+                        opc = scan.nextInt();
+                        switch (opc) {
+                            case 1:
+                                if (cursos.size() == 0) {
+                                    System.out.println("\nNão existe nenhum curso cadastrado!\n");
+                                    break;
+                                }
+                                System.out.println("\nCadastrar Aluno\n");
+
+                                scan.nextLine();
+                                System.out.println("Escreva o nome do aluno: ");
+                                New_nome = scan.nextLine();
+                                System.out.println("Escreva a idade do aluno: ");
+                                New_idade = scan.nextInt();
+
+                                for (Curso i : cursos) {
+                                    System.out.println(i.consulta());
+                                }
+
+                                exist = false;
+
+                                while (!exist) {
+                                    System.out.println("\nEscreva o Id do Curso que deseja matricular o aluno");
+                                    opc = scan.nextInt();
+                                    for (int i = 0; i < cursos.size(); i++) {
+                                        if (opc == cursos.get(i).getId()) {
+                                            exist = true;
+                                            alunos.add(new Alunos(New_nome, New_idade, cursos.get(i)));
+                                        }
+                                    }
+                                    if (!exist) {
+                                        System.out.println("\nEscreva um ID do curso valido!");
+                                    }
+                                }
+
+                                break;
+
+                            case 2:
+
+                                if (alunos.size() == 0) {
+                                    System.out.println("\nNão existe nenhum aluno para ser consultado!\n");
+                                    break;
+                                }
+
+                                System.out.println("\nConsultar Aluno\n");
+
+                                for (Alunos i : alunos) {
+                                    System.out.println(i.consulta());
+                                }
+
+                                exist = false;
+                                scan.nextLine();
+                                while (!exist) {
+
+                                    System.out.println("\nEscreva o numero da matricula do aluno que deseja consultar");
+                                    verif_mat = scan.nextLine();
+                                    for (int i = 0; i < alunos.size(); i++) {
+                                        if (alunos.get(i).getMatricula() == verif_mat) {
+                                            exist = true;
+                                            System.out.println(alunos.get(i));
+                                        }
+                                    }
+                                    if (!exist) {
+                                        System.out.println("\nEscreva um ID valido!");
+                                    }
+                                }
+
+                                break;
+                            case 3:
+                                if (alunos.size() == 0) {
+                                    System.out.println("\nNão existe nenhum aluno para ser removida!");
+                                    break;
+                                }
+                                System.out.println("\nRemover Aluno");
+                                for (Alunos i : alunos) {
+                                    System.out.println(i.consulta());
+                                }
+                                exist = false;
+                                while (!exist) {
+                                    scan.nextLine();
+                                    System.out.println("Escreva o numero de matricula do aluno que deseja Deletar");
+                                    verif_mat = scan.nextLine();
+                                    for (int i = 0; i < alunos.size(); i++) {
+                                        if (alunos.get(i).getMatricula() == verif_mat) {
+                                            exist = true;
+                                            System.out.println("\nDeletando " + alunos.get(i).getNome());
+                                            alunos.remove(i);
+                                        }
+                                    }
+                                    if (!exist) {
+                                        System.out.println("\nEscreva um ID valido!");
+                                    }
+                                }
+                                break;
+
+                            case 4:
+                                if (alunos.size() == 0) {
+                                    System.out.println("\nNão existe nenhum Aluno para ser Atualizada");
+                                    break;
+                                }
+
+                                System.out.println("\nAtualizar Aluno\n");
+
+                                for (Alunos i : alunos) {
+                                    System.out.println(i.consulta());
+                                }
+
+                                exist = false;
+                                while (!exist) {
+                                    scan.nextLine();
+                                    System.out.println("\nEscreva o numero de matricula do aluno que deseja Atualizar");
+                                    verif_mat = scan.nextLine();
+                                    for (int i = 0; i < alunos.size(); i++) {
+                                        if (alunos.get(i).getMatricula() == verif_mat) {
+                                            exist = true;
+                                            scan.nextLine();
+                                            System.out.println("\nEscreve o novo nome para o aluno");
+                                            New_nome = scan.nextLine();
+                                            System.out.println("Escreva a nova idade do aluno");
+                                            New_idade = scan.nextInt();
+                                            alunos.get(i).update(New_nome, New_idade);
+                                            System.out.println("\nAluno salvo com sucesso\n");
+
+                                        }
+                                    }
+                                    if (!exist) {
+                                        System.out.println("\nEscreva um ID valido!");
+                                    }
+                                }
+                                break;
+
+                            case 5:
+                                System.out.println("Mostrar notas");
+                                break;
+
+                            case 6:
+                                System.out.println("Atualizar notas");
+                                break;
+
+                            case 7:
+                                System.out.println("Mudar curso de um Aluno");
+                                break;
+
+                            case 8:
+                                System.out.println("\nVoltando ao menu principal...\n");
+                                continuar = false;
+                                break;
+
+                            default:
+                                System.out.println("\nDigite umma opcao valida!\n");
+                                break;
+                        }
+                    }
+                    continuar = true;
                     break;
                 case 2:
                     while (continuar) {
                         String New_nome;
                         int New_carg_hr;
-                        boolean exist;
+                        boolean exist = false;
                         System.out.println("\nGerenciar Disciplinas\n");
                         System.out.println(
                                 "Opções:\n   1-Cadastrar Disciplina\n   2-Consultar Disciplina\n   3-Remover disciplina\n   4-Atualizar disciplina\n   5-Voltar ao menu inicial");
@@ -128,6 +292,7 @@ public class App {
                                 System.out.println("\nEscolha uma opcao valida\n");
                                 break;
                         }
+
                     }
                     continuar = true;
                     break;
