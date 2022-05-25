@@ -6,6 +6,7 @@ public class Alunos {
     private String nome;
     private static int num_mat;
     private String matricula;
+    private int matricula;
     private int idade;
     private Map<String, Float> notas = new HashMap<String, Float>();
     private Curso c1;
@@ -14,19 +15,47 @@ public class Alunos {
         this.nome = nome;
         this.idade = idade;
         this.c1 = c1;
+
         for (Disciplinas i : c1.getDisp()) {
             notas.put(i.getNome(), 0.00f);
         }
+
         num_mat++;
-        this.matricula = String.format("2020%d%d", c1.getId(), num_mat);
+        this.matricula = 2020 * 10000 + c1.getId() * 100 + num_mat;
+
     }
 
     public String getNome() {
         return nome;
     }
 
-    public String getMatricula() {
+    public int getMatricula() {
         return matricula;
+    }
+
+    public Map<String, Float> getNotas() {
+        return notas;
+    }
+
+    public String getValnotas() {
+
+        String n = "";
+
+        for (String i : notas.keySet()) {
+            n += "\n" + i + " --- " + notas.get(i) + "\n";
+        }
+
+        return n;
+    }
+
+    public String getDiscips() {
+
+        String discips = "";
+
+        for (Disciplinas i : c1.getDisp()) {
+            discips += "\n" + i.getNome() + "\n";
+        }
+        return discips;
     }
 
     public String toString() {

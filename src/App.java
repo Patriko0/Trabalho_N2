@@ -22,8 +22,10 @@ public class App {
                 case 1:
                     while (continuar) {
                         String New_nome;
-                        String verif_mat;
-                        Integer New_idade;
+                        String verif_discip;
+                        int verif_mat;
+                        int New_idade;
+                        float new_nota;
                         boolean exist = false;
                         System.out.println("Gerenciar Alunos\n");
                         System.out.println(
@@ -83,7 +85,7 @@ public class App {
                                 while (!exist) {
 
                                     System.out.println("\nEscreva o numero da matricula do aluno que deseja consultar");
-                                    verif_mat = scan.nextLine();
+                                    verif_mat = scan.nextInt();
                                     for (int i = 0; i < alunos.size(); i++) {
                                         if (alunos.get(i).getMatricula() == verif_mat) {
                                             exist = true;
@@ -109,7 +111,7 @@ public class App {
                                 while (!exist) {
                                     scan.nextLine();
                                     System.out.println("Escreva o numero de matricula do aluno que deseja Deletar");
-                                    verif_mat = scan.nextLine();
+                                    verif_mat = scan.nextInt();
                                     for (int i = 0; i < alunos.size(); i++) {
                                         if (alunos.get(i).getMatricula() == verif_mat) {
                                             exist = true;
@@ -139,7 +141,7 @@ public class App {
                                 while (!exist) {
                                     scan.nextLine();
                                     System.out.println("\nEscreva o numero de matricula do aluno que deseja Atualizar");
-                                    verif_mat = scan.nextLine();
+                                    verif_mat = scan.nextInt();
                                     for (int i = 0; i < alunos.size(); i++) {
                                         if (alunos.get(i).getMatricula() == verif_mat) {
                                             exist = true;
@@ -154,17 +156,82 @@ public class App {
                                         }
                                     }
                                     if (!exist) {
-                                        System.out.println("\nEscreva um ID valido!");
+                                        System.out.println("\nEscreva um numero de matricula valido!");
                                     }
                                 }
                                 break;
 
                             case 5:
-                                System.out.println("Mostrar notas");
+                                if (alunos.size() == 0) {
+                                    System.out.println("\nNão existe nenhum Aluno para mostrar as notas");
+                                    break;
+                                }
+
+                                System.out.println("\nMostrar notas");
+
+                                for (Alunos i : alunos) {
+                                    System.out.println(i.consulta());
+                                }
+
+                                exist = false;
+                                while (!exist) {
+                                    scan.nextLine();
+                                    System.out.println(
+                                            "Escreva o numero de matricula do aluno que deseja mostrar as notas");
+                                    verif_mat = scan.nextInt();
+                                    for (int i = 0; i < alunos.size(); i++) {
+                                        if (alunos.get(i).getMatricula() == verif_mat) {
+                                            exist = true;
+                                            System.out.println("\n" + alunos.get(i).getNome());
+                                            System.out.println(alunos.get(i).getValnotas());
+                                        }
+                                    }
+                                    if (!exist) {
+                                        System.out.println("\nEscreva um numero de matricula valido!");
+                                    }
+                                }
                                 break;
 
                             case 6:
+                                if (alunos.size() == 0) {
+                                    System.out.println("\nNão existe nenhum Aluno para mostrar as notas");
+                                    break;
+                                }
+
                                 System.out.println("Atualizar notas");
+
+                                for (Alunos i : alunos) {
+                                    System.out.println(i.consulta());
+                                }
+
+                                exist = false;
+                                while (!exist) {
+                                    scan.nextLine();
+                                    System.out.println(
+                                            "Escreva o numero de matricula do aluno que deseja atualizar a nota");
+                                    verif_mat = scan.nextInt();
+                                    for (int i = 0; i < alunos.size(); i++) {
+                                        if (alunos.get(i).getMatricula() == verif_mat) {
+                                            scan.nextLine();
+                                            while (!exist) {
+                                                System.out.println(alunos.get(i).getDiscips());
+                                                System.out.println(
+                                                        "Escreva o nome da disciplina que deseja colocar uma nota");
+                                                verif_discip = scan.nextLine();
+                                                if (alunos.get(i).getNotas().containsKey(verif_discip)) {
+                                                    exist = true;
+                                                    System.out.println("Escreva a nova nota de " + verif_discip);
+                                                    new_nota = scan.nextFloat();
+                                                    alunos.get(i).update_Nota(verif_discip, new_nota);
+                                                }
+                                            }
+                                            exist = true;
+                                        }
+                                    }
+                                    if (!exist) {
+                                        System.out.println("\nEscreva um numero de matricula valido!");
+                                    }
+                                }
                                 break;
 
                             case 7:
