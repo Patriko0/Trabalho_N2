@@ -3,13 +3,15 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        ArrayList<Disciplinas> disciplinas = new ArrayList<Disciplinas>();
-        ArrayList<Curso> cursos = new ArrayList<Curso>();
-        ArrayList<Alunos> alunos = new ArrayList<Alunos>();
+        ArrayList<Disciplinas> disciplinas = new ArrayList<Disciplinas>(); // * Tabela de disciplinas
+        ArrayList<Curso> cursos = new ArrayList<Curso>(); // * Tabela de cursos
+        ArrayList<Alunos> alunos = new ArrayList<Alunos>(); // * Tabela de alunos
+
+        Scanner scan = new Scanner(System.in);
+
         disciplinas.add(new Disciplinas("Default discip", 80));
         cursos.add(new Curso("Default curso", "Manha", disciplinas.get(0)));
         alunos.add(new Alunos("Defalt aluno", 15, cursos.get(0)));
-        Scanner scan = new Scanner(System.in);
 
         System.out.println("Sistema Academico - IFCE - Campus Itapipoca");
         boolean continuar = true;
@@ -19,7 +21,7 @@ public class App {
                     "Opções:\n   1-Gerenciar Alunos\n   2-Gerenciar Disciplinas\n   3-Gerenciar Cursos\n   4-Sair\n");
             int opc = scan.nextInt();
             switch (opc) {
-                case 1:
+                case 1: // * Gerenciar alunos
                     while (continuar) {
                         String New_nome;
                         String verif_discip;
@@ -32,7 +34,7 @@ public class App {
                                 "Opções:\n   1-Cadastrar Aluno\n   2-Consultar Aluno\n   3-Remover Aluno\n   4-Atualizar Aluno\n   5-Mostrar notas\n   6-Atualizar notas\n   7-Mudar o curso do aluno\n   8-Voltar ao menu inicial");
                         opc = scan.nextInt();
                         switch (opc) {
-                            case 1:
+                            case 1: // ? Cadastrar aluno
                                 if (cursos.size() == 0) {
                                     System.out.println("\nNão existe nenhum curso cadastrado!\n");
                                     break;
@@ -67,7 +69,7 @@ public class App {
 
                                 break;
 
-                            case 2:
+                            case 2: // ? Consultar aluno
 
                                 if (alunos.size() == 0) {
                                     System.out.println("\nNão existe nenhum aluno para ser consultado!\n");
@@ -98,7 +100,7 @@ public class App {
                                 }
 
                                 break;
-                            case 3:
+                            case 3: // ? Remover aluno
                                 if (alunos.size() == 0) {
                                     System.out.println("\nNão existe nenhum aluno para ser removida!");
                                     break;
@@ -125,7 +127,7 @@ public class App {
                                 }
                                 break;
 
-                            case 4:
+                            case 4: // ? Atualizar aluno
                                 if (alunos.size() == 0) {
                                     System.out.println("\nNão existe nenhum Aluno para ser Atualizada");
                                     break;
@@ -161,7 +163,7 @@ public class App {
                                 }
                                 break;
 
-                            case 5:
+                            case 5: // ? Mostrar notas
                                 if (alunos.size() == 0) {
                                     System.out.println("\nNão existe nenhum Aluno para mostrar as notas");
                                     break;
@@ -192,9 +194,9 @@ public class App {
                                 }
                                 break;
 
-                            case 6:
+                            case 6: // ? Atualizar notas
                                 if (alunos.size() == 0) {
-                                    System.out.println("\nNão existe nenhum Aluno para mostrar as notas");
+                                    System.out.println("\nNão existe nenhum Aluno para atualizar as notas");
                                     break;
                                 }
 
@@ -222,7 +224,7 @@ public class App {
                                                     exist = true;
                                                     System.out.println("Escreva a nova nota de " + verif_discip);
                                                     new_nota = scan.nextFloat();
-                                                    alunos.get(i).update_Nota(verif_discip, new_nota);
+                                                    alunos.get(i).updateNota(verif_discip, new_nota);
                                                 }
                                             }
                                             exist = true;
@@ -234,11 +236,52 @@ public class App {
                                 }
                                 break;
 
-                            case 7:
+                            case 7: // ? Mudar curso
+                                if (alunos.size() == 0) {
+                                    System.out.println("\nNão existe nenhum Aluno para mudar o curso");
+                                    break;
+                                }
+
                                 System.out.println("Mudar curso de um Aluno");
+
+                                for (Alunos i : alunos) {
+                                    System.out.println(i.consulta());
+                                }
+
+                                exist = false;
+                                while (!exist) {
+                                    System.out.println(
+                                            "Escreva o numero de matricula do aluno que deseja mudar de curso");
+                                    verif_mat = scan.nextInt();
+                                    for (int i = 0; i < alunos.size(); i++) {
+                                        if (alunos.get(i).getMatricula() == verif_mat) {
+                                            for (Curso e : cursos) {
+                                                System.out.println(e.consulta());
+                                            }
+                                            while (!exist) {
+                                                System.out.println("Escreva o id do curso que deseja mudar");
+                                                opc = scan.nextInt();
+                                                for (int j = 0; j < cursos.size(); j++) {
+                                                    if (opc == cursos.get(j).getId()) {
+                                                        System.out.println(
+                                                                "Mudando de " + alunos.get(i).getCurso().getNome()
+                                                                        + " para " + cursos.get(j).getNome());
+                                                        alunos.get(i).changeCurso(cursos.get(j));
+                                                        exist = true;
+                                                    }
+                                                }
+                                            }
+                                            exist = true;
+                                        }
+                                    }
+                                    if (!exist) {
+                                        System.out.println("\nEscreva um numero de matricula valido!");
+                                    }
+                                }
+
                                 break;
 
-                            case 8:
+                            case 8: // ! Sair
                                 System.out.println("\nVoltando ao menu principal...\n");
                                 continuar = false;
                                 break;
@@ -250,7 +293,7 @@ public class App {
                     }
                     continuar = true;
                     break;
-                case 2:
+                case 2: // * Gerenciar Disciplinas
                     while (continuar) {
                         String New_nome;
                         int New_carg_hr;
@@ -260,7 +303,7 @@ public class App {
                                 "Opções:\n   1-Cadastrar Disciplina\n   2-Consultar Disciplina\n   3-Remover disciplina\n   4-Atualizar disciplina\n   5-Voltar ao menu inicial");
                         opc = scan.nextInt();
                         switch (opc) {
-                            case 1:
+                            case 1: // ? Cadastrar disciplina
                                 System.out.println("\nCadastrar Disciplina\n");
                                 scan.nextLine();
                                 System.out.println("Escreva o nome da Disciplina: ");
@@ -269,7 +312,7 @@ public class App {
                                 New_carg_hr = scan.nextInt();
                                 disciplinas.add(new Disciplinas(New_nome, New_carg_hr));
                                 break;
-                            case 2:
+                            case 2: // ? Consultar disciplina
                                 if (disciplinas.size() == 0) {
                                     System.out.println("\nNão existe nenhuma disciplina para ser Consultada!");
                                     break;
@@ -294,7 +337,7 @@ public class App {
                                 }
 
                                 break;
-                            case 3:
+                            case 3: // ? Remover disciplina
                                 if (disciplinas.size() == 0) {
                                     System.out.println("\nNão existe nenhuma disciplina para ser removida!");
                                     break;
@@ -320,7 +363,7 @@ public class App {
                                 }
 
                                 break;
-                            case 4:
+                            case 4: // ? Atualizar disciplina
                                 if (disciplinas.size() == 0) {
                                     System.out.println("\nNão existe nenhuma disciplina para ser Atualizada");
                                     break;
@@ -351,7 +394,7 @@ public class App {
                                     }
                                 }
                                 break;
-                            case 5:
+                            case 5: // ! Sair
                                 System.out.println("\nVoltando ao menu principal...\n");
                                 continuar = false;
                                 break;
@@ -363,7 +406,7 @@ public class App {
                     }
                     continuar = true;
                     break;
-                case 3:
+                case 3: // * Gerenciar cursos
                     while (continuar) {
                         String New_nome;
                         String New_turno;
@@ -373,7 +416,7 @@ public class App {
                                 "Opções:\n   1-Cadastrar Curso\n   2-Consultar Curso\n   3-Remover Curso\n   4-Atualizar Curso\n   5-Adicionar nova disciplina a um Curso\n   6-Remover uma disciplina de um Curso\n   7-Voltar ao menu inicial");
                         opc = scan.nextInt();
                         switch (opc) {
-                            case 1:
+                            case 1: // ? Cadastrar disciplina
                                 if (disciplinas.size() == 0) {
                                     System.out.println("Nao existe nenhuma disciplina cadastrada");
                                     break;
@@ -403,7 +446,7 @@ public class App {
                                     }
                                 }
                                 break;
-                            case 2:
+                            case 2: // ? Consultar curso
                                 if (cursos.size() == 0) {
                                     System.out.println("\nNão existe nenhum Curso para ser Consultada!");
                                     break;
@@ -428,7 +471,7 @@ public class App {
                                 }
 
                                 break;
-                            case 3:
+                            case 3: // ? Remover curso
                                 if (cursos.size() == 0) {
                                     System.out.println("\nNão existe nenhum Curso para ser removida!");
                                     break;
@@ -454,7 +497,7 @@ public class App {
                                 }
 
                                 break;
-                            case 4:
+                            case 4: // ? Atualizar curso
                                 if (cursos.size() == 0) {
                                     System.out.println("\nNão existe nenhum Curso para ser Atualizada");
                                     break;
@@ -486,7 +529,7 @@ public class App {
                                     }
                                 }
                                 break;
-                            case 5:
+                            case 5: // ? Adicionar nova disciplina
                                 if (cursos.size() == 0) {
                                     System.out.println("\nNão existe nenhum Curso para colocar uma nova disciplina!");
                                     break;
@@ -533,7 +576,7 @@ public class App {
                                     }
                                 }
                                 break;
-                            case 6:
+                            case 6: // ? Remover uma disciplina
                                 if (cursos.size() == 0) {
                                     System.out.println("\nNão existe nenhum Curso para remover uma disciplina!");
                                     break;
@@ -581,7 +624,7 @@ public class App {
                                     }
                                 }
                                 break;
-                            case 7:
+                            case 7: // ! Sair
                                 System.out.println("\nVoltando ao menu principal...\n");
                                 continuar = false;
                                 break;
@@ -592,7 +635,7 @@ public class App {
                     }
                     continuar = true;
                     break;
-                case 4:
+                case 4: // ! Fechar o programa
                     System.out.println("Saindo...\n");
                     continuar = false;
                     break;

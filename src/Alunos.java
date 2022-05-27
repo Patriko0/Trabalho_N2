@@ -1,32 +1,37 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Alunos {
-    private String nome;
-    private static int num_mat;
-    private String matricula;
-    private int matricula;
-    private int idade;
-    private Map<String, Float> notas = new HashMap<String, Float>();
-    private Curso c1;
+    private String nome; // * Nome do aluno
+    private static int newMat; // * Numero que ira complementar a matricula. Ira se incrementar toda vez que um
+                               // * novo aluno surgir
+    private int matricula; // * Numero de matricula do curso
+    private int idade; // * Idade do aluno
+    private Map<String, Float> notas = new HashMap<String, Float>(); // * Mapa para as notas dos alunos. A chave sera o
+                                                                     // * nome da disciplina e a chave sera o valor da
+                                                                     // * nota da disciplina
+    private Curso curso; // * Curso do aluno
 
-    public Alunos(String nome, int idade, Curso c1) {
+    public Alunos(String nome, int idade, Curso curso) { // ? Construtor
         this.nome = nome;
         this.idade = idade;
-        this.c1 = c1;
+        this.curso = curso;
 
-        for (Disciplinas i : c1.getDisp()) {
+        for (Disciplinas i : curso.getDisp()) {
             notas.put(i.getNome(), 0.00f);
         }
 
-        num_mat++;
-        this.matricula = 2020 * 10000 + c1.getId() * 100 + num_mat;
+        newMat++;
+        this.matricula = 2022 * 10000 + curso.getId() * 100 + newMat;
 
     }
 
     public String getNome() {
         return nome;
+    }
+
+    public Curso getCurso() {
+        return curso;
     }
 
     public int getMatricula() {
@@ -52,40 +57,47 @@ public class Alunos {
 
         String discips = "";
 
-        for (Disciplinas i : c1.getDisp()) {
+        for (Disciplinas i : curso.getDisp()) {
             discips += "\n" + i.getNome() + "\n";
         }
         return discips;
     }
 
-    public String toString() {
-        return String.format("\nMatricula: %s\nNome: %s\nIdade: %d\nCurso: %s\n", matricula, nome, idade, c1.getNome());
+    public String toString() { // ? Vai retornar a matricula, nome, idade, e nome do curso do aluno em uma
+                               // ? String
+        return String.format("\nMatricula: %s\nNome: %s\nIdade: %d\nCurso: %s\n", matricula, nome, idade,
+                curso.getNome());
     }
 
-    public String consulta() {
+    public String consulta() { // ? Ira retornar a matricula e o nome do aluno em uma string
         return String.format("\nMatricula: %s\nNome: %s\n", matricula, nome);
     }
 
-    public void update(String nome, int idade) {
+    public void update(String nome, int idade) { // ? Vai atualizar o nome do aluno e a idade
         this.nome = nome;
         this.idade = idade;
     }
 
-    public void update_Nota(String nome_disp, Float new_nota) {
+    public void updateNota(String nome_disp, Float new_nota) { // ? Vai atualizar a nota de uma disciplina do aluno
         this.notas.put(nome_disp, new_nota);
     }
 
-    public void change_Curso(Curso c1) {
-        ArrayList<String> same_discip = new ArrayList<String>();
-        for (int i = 0; i < this.c1.getDisp().size(); i++) {
-            for (int j = 0; j < c1.getDisp().size(); j++) {
-                if (this.c1.getDisp().get(i).getId() == c1.getDisp().get(j).getId()) {
-                    same_discip.add(c1.getDisp().get(j).getNome());
+    public void changeCurso(Curso curso) { // ? Vai mudar o curso de um aluno
+        boolean exist;
+        for (int i = 0; i < this.curso.getDisp().size(); i++) {
+            exist = false;
+            for (int j = 0; j < curso.getDisp().size(); j++) {
+                if (this.curso.getDisp().get(i).getId() == curso.getDisp().get(j).getId()) {
+                    exist = true;
+                }
+                if (!(notas.containsKey(curso.getDisp().get(j).getNome()))) {
+                    notas.put(curso.getDisp().get(j).getNome(), 0.00f);
                 }
             }
+            if (!exist) {
+                notas.remove(this.curso.getDisp().get(i).getNome());
+            }
         }
-
-        this.c1 = c1;
-
+        this.curso = curso;
     }
 }
