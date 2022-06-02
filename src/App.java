@@ -354,7 +354,14 @@ public class App {
                                         if (disciplinas.get(i).getId() == opc) {
                                             exist = true;
                                             System.out.println("\nDeletando " + disciplinas.get(i).getNome());
+                                            for (int j = 0; j < alunos.size(); j++) {
+                                                alunos.get(j).updateDiscips(disciplinas.get(i).getNome());
+                                            }
+                                            for (int j = 0; j < cursos.size(); j++) {
+                                                cursos.get(j).remove_discip(opc);
+                                            }
                                             disciplinas.remove(i);
+
                                         }
                                     }
                                     if (!exist) {

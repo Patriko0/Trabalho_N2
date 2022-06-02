@@ -10,6 +10,7 @@ public class Alunos {
     private Map<String, Float> notas = new HashMap<String, Float>(); // * Mapa para as notas dos alunos. A chave sera o
                                                                      // * nome da disciplina e a chave sera o valor da
                                                                      // * nota da disciplina
+
     private Curso curso; // * Curso do aluno
 
     public Alunos(String nome, int idade, Curso curso) { // ? Construtor
@@ -28,6 +29,7 @@ public class Alunos {
 
     public String getNome() {
         return nome;
+
     }
 
     public Curso getCurso() {
@@ -80,6 +82,15 @@ public class Alunos {
 
     public void updateNota(String nome_disp, Float new_nota) { // ? Vai atualizar a nota de uma disciplina do aluno
         this.notas.put(nome_disp, new_nota);
+    }
+
+    public boolean updateDiscips(String nome_discip) { // ? Atualiza as disciplinas do aluno
+        if (notas.containsKey(nome_discip)) {
+            notas.remove(nome_discip);
+            return true;
+        }
+
+        return false;
     }
 
     public void changeCurso(Curso curso) { // ? Vai mudar o curso de um aluno
