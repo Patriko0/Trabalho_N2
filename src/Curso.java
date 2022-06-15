@@ -53,6 +53,15 @@ public class Curso {
         }
     }
 
+    public boolean exist_discip(int id_discip) { // ? Verifica se existe uma disciplina no curso
+        for (int i = 0; i < disp.size(); i++) {
+            if (id_discip == disp.get(i).getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void update(String nome, String turno) { // ? Atualiza o nome e o turno do curso
         this.nome = nome;
         this.turno = turno;

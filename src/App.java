@@ -9,10 +9,6 @@ public class App {
 
         Scanner scan = new Scanner(System.in);
 
-        disciplinas.add(new Disciplinas("Default discip", 80));
-        cursos.add(new Curso("Default curso", "Manha", disciplinas.get(0)));
-        alunos.add(new Alunos("Defalt aluno", 15, cursos.get(0)));
-
         System.out.println("Sistema Academico - IFCE - Campus Itapipoca");
         boolean continuar = true;
 
@@ -298,6 +294,7 @@ public class App {
                         String New_nome;
                         int New_carg_hr;
                         boolean exist = false;
+                        boolean exist_discip = false;
                         System.out.println("\nGerenciar Disciplinas\n");
                         System.out.println(
                                 "Opções:\n   1-Cadastrar Disciplina\n   2-Consultar Disciplina\n   3-Remover disciplina\n   4-Atualizar disciplina\n   5-Voltar ao menu inicial");
@@ -347,20 +344,25 @@ public class App {
                                     System.out.println(i.consulta());
                                 }
                                 exist = false;
+
                                 while (!exist) {
                                     System.out.println("\nEscreva o ID da disciplina que deseja Deletar");
                                     opc = scan.nextInt();
                                     for (int i = 0; i < disciplinas.size(); i++) {
                                         if (disciplinas.get(i).getId() == opc) {
                                             exist = true;
-                                            System.out.println("\nDeletando " + disciplinas.get(i).getNome());
-                                            for (int j = 0; j < alunos.size(); j++) {
-                                                alunos.get(j).updateDiscips(disciplinas.get(i).getNome());
-                                            }
                                             for (int j = 0; j < cursos.size(); j++) {
-                                                cursos.get(j).remove_discip(opc);
+                                                if (cursos.get(j).exist_discip(opc)) {
+                                                    exist_discip = true;
+                                                }
                                             }
-                                            disciplinas.remove(i);
+                                            if (!exist_discip) {
+                                                System.out.println("\nDeletando " + disciplinas.get(i).getNome());
+                                                disciplinas.remove(i);
+                                            } else {
+                                                System.out.println(
+                                                        "\nNão foi possivel deletar a disciplina, pois existe um curso com ela\n");
+                                            }
 
                                         }
                                     }
@@ -418,6 +420,7 @@ public class App {
                         String New_nome;
                         String New_turno;
                         boolean exist = false;
+                        boolean exist_curso = false;
                         System.out.println("\nGerenciar Cursos\n");
                         System.out.println(
                                 "Opções:\n   1-Cadastrar Curso\n   2-Consultar Curso\n   3-Remover Curso\n   4-Atualizar Curso\n   5-Adicionar nova disciplina a um Curso\n   6-Remover uma disciplina de um Curso\n   7-Voltar ao menu inicial");
@@ -425,7 +428,7 @@ public class App {
                         switch (opc) {
                             case 1: // ? Cadastrar disciplina
                                 if (disciplinas.size() == 0) {
-                                    System.out.println("Nao existe nenhuma disciplina cadastrada");
+                                    System.out.println("\nNao existe nenhuma disciplina cadastrada\n");
                                     break;
                                 }
                                 System.out.println("\nCadastrar Curso\n");
@@ -494,8 +497,19 @@ public class App {
                                     for (int i = 0; i < cursos.size(); i++) {
                                         if (cursos.get(i).getId() == opc) {
                                             exist = true;
-                                            System.out.println("\nDeletando " + cursos.get(i).getNome());
-                                            cursos.remove(i);
+                                            for (int j = 0; j < alunos.size(); j++) {
+                                                if (alunos.get(j).getCurso().getId() == opc) {
+                                                    exist_curso = true;
+                                                }
+                                            }
+                                            if (!exist_curso) {
+                                                System.out.println("\nDeletando " + cursos.get(i).getNome());
+                                                cursos.remove(i);
+                                            } else {
+                                                System.out.println(
+                                                        "\nNão é possível remover o curso, pois existe um aluno matriculado nele.\n");
+                                            }
+
                                         }
                                     }
                                     if (!exist) {
